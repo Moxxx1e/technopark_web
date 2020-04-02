@@ -1,96 +1,30 @@
-{% load static %}
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>Index</title>
-    <!-- Bootstrap core CSS -->
-    <link href="{% static '/css/bootstrap.min.css' %}" rel="stylesheet">
-  </head>
+{% extends 'base.html' %}
 
-  <body>
-    <nav class="navbar navbar-expand-md navbar-light bg-light fixed-top">
-        <div class="col-4 mt-2">
-            <a class="navbar-brand" href="#"><h2>AskMe</h2></a>
-        </div>
+{% block content %}
+<div>
+    <ul class="list-inline">
+        <li class="list-inline-item">
+            <h2><a>New Questions</a></h2>
+        </li>
+        <li class="list-inline-item">
+            <a href="#">Hot Questions</a>
+        </li>
+    </ul>
 
-        <div class="col-5">
-            <form class="form-inline mr-4">
-                <input class="form-control mr-4" type="text" placeholder="Search" aria-label="Search">
-                <button class="btn btn-primary" type="submit">ASK!</button>
-            </form>
-        </div>
+    {% for question in questions %}
+        {% include 'inc/question.html' %}
+    {% endfor %}
 
-        <div class="col-5 mr-1 form-inline">
-            <img src="{% static '/img/64x64.jpg' %}" class="rounded float-right mr-3" alt="avatar in navbar">
-    
-            <p class="lead">
-              <ul class="list-inline">
-                <li>DR. Pepper</li>
-                <li class="list-inline-item"><a  href="settings.html"><strong>settings</strong></a></li>
-                <li class="list-inline-item"><a href="#"><strong>log out</strong></a></li>
-              </ul>
-            </p>
-        </div>
-</nav>
-
-<div class="container mt-5">
-    <div class="row">
-        <div class="col-9 mt-5">
-            <div>
-                <ul class="list-inline">
-                    <li class="list-inline-item">
-                        <h2><a>New Questions</a></h2>
-                    </li>
-                    <li class="list-inline-item">
-                        <a href="#">Hot Questions</a>
-                    </li>
-                </ul>
-
-                {% for question in questions %}
-			        {% include 'inc/question.html' %}
-		        {% endfor %}
-
-                <br>
-                <button type="button" class="btn btn-outline-primary">1</button>
-                <button type="button" class="btn btn-outline-primary">2</button>
-                <button type="button" class="btn btn-outline-primary">3</button>
-                <button type="button" class="btn btn-outline-primary">...</button>
-                <button type="button" class="btn btn-outline-primary">53</button>
-            </div>
-        </div>
-
-        <div class="col-3 mt-5">
-            <div>
-                <div class="alert">
-                    <h2>Popular Tags</h2>
-                    <ul class="list-inline">
-                        <li class="list-inline-item"><a href="#"><strong>Perl</strong></a></li>
-                        <li class="list-inline-item"><a href="#"><strong>Python</strong></a></li>
-                        <li class="list-inline-item"><a href="#"><strong>Technopark</strong></a></li>
-                        <br>
-                        <li class="list-inline-item"><a href="#"><strong>MySQL</strong></a></li>
-                        <li class="list-inline-item"><a href="#"><strong>Django</strong></a></li>
-                        <br>
-                        <li class="list-inline-item"><a href="#"><strong>Mail.ru</strong></a></li>
-                        <li class="list-inline-item"><a href="#"><strong>Voloshin</strong></a></li>
-                        <li class="list-inline-item"><a href="#"><strong>Firefox</strong></a></li>
-                    </ul>
-                    <h2>Best Members</h2>
-                    <ul class="list-unstyled">
-                        <li class="list-unstyled-item"><a href="#">Mr. Freeman</a></li>
-                        <li class="list-unstyled-item"><a href="#">Dr. House</a></li>
-                        <li class="list-unstyled-item"><a href="#">Bender</a></li>
-                        <li class="list-unstyled-item"><a href="#">Queen Victoria</a></li>
-                        <li class="list-unstyled-item"><a href="#">V. Pupkin</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
+    <br>
+    <button type="button" class="btn btn-outline-primary">1</button>
+    <button type="button" class="btn btn-outline-primary">2</button>
+    <button type="button" class="btn btn-outline-primary">3</button>
+    <button type="button" class="btn btn-outline-primary">...</button>
+    <button type="button" class="btn btn-outline-primary">53</button>
+    <br>
+    <br>
+    <br>
 </div>
 
-<script src="{% static '/js/jquery-3.4.1.slim.min.js' %}"></script>
-<script src="{% static '/js/bootstrap.bundle.min.js' %}"></script>
+{% endblock content %}
 
-</html>
