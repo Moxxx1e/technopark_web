@@ -1,10 +1,11 @@
+{% load static %}
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
     <title>Index</title>
     <!-- Bootstrap core CSS -->
-    <link href="static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{% static '/css/bootstrap.min.css' %}" rel="stylesheet">
   </head>
 
   <body>
@@ -21,7 +22,7 @@
         </div>
 
         <div class="col-5 mr-1 form-inline">
-            <img src="static/img/64x64.jpg" class="rounded float-right mr-3" alt="avatar">
+            <img src="{% static '/img/64x64.jpg' %}" class="rounded float-right mr-3" alt="avatar in navbar">
     
             <p class="lead">
               <ul class="list-inline">
@@ -50,7 +51,7 @@
                     <li class="list-unstyled-item">
                         <div class="bg-light border border-dark rounded mt-4">
                             
-                            <img src="static/img/64x64.jpg" class="rounded float-left mt-2 ml-2" alt="avatar in post">
+                            <img src="{% static '/img/64x64.jpg' %}" class="rounded float-left mt-2 ml-2" alt="avatar in post">
                             
                             <h3 class="mt-2">
                                 <a class="ml-3" href="#">How to build a moon park?</a>
@@ -119,7 +120,7 @@
     </div>
 </div>
 
-<script src="static/js/jquery-3.4.1.slim.min.js"></script>
-<script src="static/js/bootstrap.bundle.min.js"></script>
+<script src="{% static '/js/jquery-3.4.1.slim.min.js' %}"></script>
+<script src="{% static '/js/bootstrap.bundle.min.js' %}"></script>
 
 </html>
