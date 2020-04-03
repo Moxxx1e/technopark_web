@@ -1,6 +1,10 @@
+{% extends 'base.html' %}
+
 {% load static %}
 
-<div class="border border-dark rounded mt-4">
+{% block content %}
+
+<div class="border border-top-0 border-right-0 border-left-0 border-dark rounded mt-4">
     <div class="media">
         <div class="mr-3">
             <div class="text-center">
@@ -9,7 +13,7 @@
             <div class="text-center">
                 <img src="{% static 'img/up-arrow.png' %}" class="" alt="up_arrow">
             </div>
-
+    
             <div class="text-center">
                 <a>0</a>
             </div>
@@ -18,16 +22,16 @@
                 <img src="{% static 'img/down-arrow.png' %}" class="" alt="up_arrow">
             </div>
         </div>
-
+    
         <div class="media-body">
             <a href="#"><h4 class="my-2">How to build a moon park?</h4></a>
             <a class="mt-4"><h6>Guys, I have trouble with a moon park.  <br>
             Can't find th black-jack.</h6></a>
-
+    
             <div class="mt-5">
                 <ul class="list-inline">
                     <li class="list-inline-item mr-5"><a href="#"><h5>Answer(3)</h5></a></li>
-
+    
                     <li class="list-inline-item">
                         <a><h5>Tags:</h5></a>
                     </li>
@@ -38,3 +42,18 @@
         </div>
     </div>
 </div>
+
+{% for answer in answers %}
+    {% include 'inc/answer.html' %}
+{% endfor %}
+<br>
+
+<div class="form-group">
+        <textarea class="form-control" placeholder="Enter your answer here" id="UserAnswer" 
+        aria-label="Text" style="height: 146px;"></textarea>
+</div>
+
+<button class="btn btn-primary" type="submit">Answer</button>
+<br>
+<br>
+{% endblock content %}

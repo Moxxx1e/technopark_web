@@ -1,24 +1,27 @@
 {% load static %}
 
 <nav class="navbar navbar-expand-md navbar-light bg-light fixed-top">
-    <div class="col-4 mt-2">
-        <a class="navbar-brand" href="#"><h2>AskMe</h2></a>
+    <div class="col-3 mt-2 mr-5">
+        <a class="navbar-brand" 
+            href="{% url 'index' %}">
+            <h2>AskMe</h2>
+        </a>
     </div>
 
-    <div class="col-5">
+    <div class="col-5 mr-5">
         <form class="form-inline mr-4">
-            <input class="form-control mr-4" type="text" placeholder="Search" aria-label="Search">
+            <input class="form-control mr-3" style="width: 340px;" type="text" placeholder="Search" aria-label="Search">
             <button class="btn btn-primary" type="submit">ASK!</button>
         </form>
     </div>
 
-    <div class="col-5 mr-1 form-inline">
-        <img src="{% static '/img/64x64.jpg' %}" class="rounded float-right mr-3" alt="avatar in navbar">
+    <div class="col-3 form-inline">
+        <img src="{% static '/img/64x64.png' %}" class="rounded float-right mr-3" alt="avatar in navbar">
 
         <p class="lead">
           <ul class="list-inline">
             <li>DR. Pepper</li>
-            <li class="list-inline-item"><a  href="settings.html"><strong>settings</strong></a></li>
+            <li class="list-inline-item"><a  href="{% url 'settings' %}"><strong>settings</strong></a></li>
             <li class="list-inline-item"><a href="#"><strong>log out</strong></a></li>
           </ul>
         </p>
