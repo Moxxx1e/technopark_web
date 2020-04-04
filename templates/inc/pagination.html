@@ -1,22 +1,16 @@
 <nav aria-label="pages">
-    
-    <ul class="pagination">
-      <li class="page-item">
-        <a class="page-link" href="#" aria-label="Previous">
-          <span aria-hidden="true">&laquo;</span>
-        </a>
-      </li>
+    <div class="pagination">
+            <!--TODO: make nav bar more beautiful-->
+            {% if page_obj.has_previous %}
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}"> &laquo; </a>
+                <a class="page-link" href="?page=1"> 1</a>
+            {% endif %}
 
-      <li class="page-item"><a class="page-link" href="#">1</a></li>
-      <li class="page-item"><a class="page-link" href="#">2</a></li>
-      <li class="page-item"><a class="page-link" href="#">3</a></li>
-      <li class="page-item"><a class="page-link" href="#">...</a></li>
-      <li class="page-item"><a class="page-link" href="#">53</a></li>
-      <li class="page-item">
-      
-      <a class="page-link" href="#" aria-label="Next">
-          <span aria-hidden="true">&raquo;</span>
-        </a>
-      </li>
-    </ul>
+            <a class="page-link" style="background-color: lightgrey" href="#">{{ page_obj.number }}</a>
+    
+            {% if page_obj.has_next %}
+                <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">{{page_obj.paginator.num_pages}}</a>
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}">&raquo;</a>
+            {% endif %}
+    </div>
   </nav>
