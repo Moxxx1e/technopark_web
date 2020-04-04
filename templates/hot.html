@@ -4,10 +4,10 @@
 <div>
     <ul class="list-inline">
         <li class="list-inline-item">
-            <h2><a>New Questions</a></h2>
+            <a href="{% url 'index' %}">New Questions</a>
         </li>
         <li class="list-inline-item">
-            <a href="{% url 'hot' %}">Hot Questions</a>
+            <h2><a>Hot Questions</a></h2>
         </li>
     </ul>
 
@@ -23,4 +23,3 @@
 </div>
 
 {% endblock content %}
-

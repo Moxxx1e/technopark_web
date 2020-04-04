@@ -3,18 +3,14 @@
 {% block content %}
 
 <div>
-    <h2><a>Tag: bender</a></h2>
+    <h2><a>Tag: {{tag}}</a></h2>
 
     {% for question in questions %}
-        {% include 'inc/question.html' %}
+        {% include 'inc/one_question.html' %}
     {% endfor %}
 
     <br>
-    <button type="button" class="btn btn-outline-primary">1</button>
-    <button type="button" class="btn btn-outline-primary">2</button>
-    <button type="button" class="btn btn-outline-primary">3</button>
-    <button type="button" class="btn btn-outline-primary">...</button>
-    <button type="button" class="btn btn-outline-primary">53</button>
+    {% include 'inc/pagination.html' %}
     <br>
     <br>
     <br>

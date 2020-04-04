@@ -24,7 +24,7 @@
         </div>
     
         <div class="media-body">
-            <a href="#"><h4 class="my-2">How to build a moon park?</h4></a>
+            <a href="{% url 'question' qid=question.id %}"><h4 class="my-2">How to build a moon park? {{ question.id }}</h4></a>
             <a class="mt-4"><h6>Guys, I have trouble with a moon park.  <br>
             Can't find th black-jack.</h6></a>
     
