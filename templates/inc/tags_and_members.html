@@ -2,16 +2,16 @@
     <div class="alert">
         <h2>Popular Tags</h2>
         <ul class="list-inline">
-            <li class="list-inline-item"><a href="#"><strong>Perl</strong></a></li>
-            <li class="list-inline-item"><a href="#"><strong>Python</strong></a></li>
-            <li class="list-inline-item"><a href="#"><strong>Technopark</strong></a></li>
+            <li class="list-inline-item"><a href="{% url 'tag' tag='Perl' %}"><strong>Perl</strong></a></li>
+            <li class="list-inline-item"><a href="{% url 'tag' tag='Python' %}"><strong>Python</strong></a></li>
+            <li class="list-inline-item"><a href="{% url 'tag' tag='Technopark' %}"><strong>Technopark</strong></a></li>
             <br>
-            <li class="list-inline-item"><a href="#"><strong>MySQL</strong></a></li>
-            <li class="list-inline-item"><a href="#"><strong>Django</strong></a></li>
+            <li class="list-inline-item"><a href="{% url 'tag' tag='MySQL' %}"><strong>MySQL</strong></a></li>
+            <li class="list-inline-item"><a href="{% url 'tag' tag='Django' %}"><strong>Django</strong></a></li>
             <br>
-            <li class="list-inline-item"><a href="#"><strong>Mail.ru</strong></a></li>
-            <li class="list-inline-item"><a href="#"><strong>Voloshin</strong></a></li>
-            <li class="list-inline-item"><a href="#"><strong>Firefox</strong></a></li>
+            <li class="list-inline-item"><a href="{% url 'tag' tag='Mail.ru' %}"><strong>Mail.ru</strong></a></li>
+            <li class="list-inline-item"><a href="{% url 'tag' tag='Voloshin' %}"><strong>Voloshin</strong></a></li>
+            <li class="list-inline-item"><a href="{% url 'tag' tag='Firefox' %}"><strong>Firefox</strong></a></li>
         </ul>
         <h2>Best Members</h2>
         <ul class="list-unstyled">
