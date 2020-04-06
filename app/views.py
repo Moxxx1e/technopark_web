@@ -1,8 +1,19 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpRequest
 from django.core.paginator import Paginator
+from .models import *
 
 gl_per_page = 10
+
+# for nav bar view:
+'''
+if request.user.is_authenticated:
+    # Do something for authenticated users.
+    ...
+else:
+    # Do something for anonymous users.
+    ...
+'''
 
 def paginate(objects_list, request, per_page=gl_per_page):
     paginator = Paginator(objects_list, per_page)
@@ -11,6 +22,9 @@ def paginate(objects_list, request, per_page=gl_per_page):
     page_obj = paginator.get_page(page_number)
     return page_obj
 
+questions = Question.objects.get_queryset()
+tags = Tag.objects.get_queryset()
+'''
 questions = []
 for i in range(1, 31):
     questions.append({
@@ -18,10 +32,12 @@ for i in range(1, 31):
         'id': i,
         'text': 'text' + str(i)
     })
+'''
 
 def index(request):
     return render(request, 'index.html', {
-        'questions': range(gl_per_page),
+        'number_of_questions': range(gl_per_page),
+        'questions': questions,
         'page_obj': paginate(questions, request)
     })
 
@@ -40,7 +56,8 @@ def ask(request):
 def question(request, qid):
     question = questions[qid - 1]
     return render(request, 'question.html', {
-        'question': question 
+        'question': question,
+        'answers': range(3),
     })
 
 def tag(request, tag):
