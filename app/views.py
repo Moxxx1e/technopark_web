@@ -22,8 +22,8 @@ def paginate(objects_list, request, per_page=gl_per_page):
     page_obj = paginator.get_page(page_number)
     return page_obj
 
-questions = Question.objects.get_queryset()
-tags = Tag.objects.get_queryset()
+#questions = Question.objects.all()
+new_questions = Question.objects.new_questions()
 '''
 questions = []
 for i in range(1, 31):
@@ -37,8 +37,8 @@ for i in range(1, 31):
 def index(request):
     return render(request, 'index.html', {
         'number_of_questions': range(gl_per_page),
-        'questions': questions,
-        'page_obj': paginate(questions, request)
+        'questions': new_questions,
+        'page_obj': paginate(new_questions, request)
     })
 
 def login(request):
@@ -54,22 +54,24 @@ def ask(request):
     return render(request, 'ask.html', {})
 
 def question(request, qid):
-    question = questions[qid - 1]
+    question = new_questions[qid - 1]
     return render(request, 'question.html', {
         'question': question,
         'answers': range(3),
     })
 
 def tag(request, tag):
+    questions = Question.objects.tag_questions(tag)
     return render(request, 'tag_questions.html', {
         'tag': tag,
-        'questions': range(gl_per_page),
+        'questions': questions,
         'page_obj': paginate(questions, request)
     }
 )
 
 def hot(request):
+    questions = Question.objects.hot_questions()
     return render(request, 'hot.html', {
-        'questions': range(gl_per_page),
+        'questions': questions,
         'page_obj': paginate(questions, request)
     })

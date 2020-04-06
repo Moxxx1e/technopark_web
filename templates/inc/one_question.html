@@ -7,20 +7,24 @@
                 <img src="{% static '/img/64x64.png' %}" class="px-3 mt-2 mb-3" alt="avatar in post">
             </div>
             <div class="text-center">
-                <img src="{% static 'img/up-arrow.png' %}" class="" alt="up_arrow">
+                <a href="#">
+                    <img src="{% static 'img/up-arrow.png' %}" class="" alt="up_arrow">
+                </a>
             </div>
 
             <div class="text-center">
-                <a>0</a>
+                <a>{{ question.rating.sum_rating }}</a>
             </div>
             
             <div class="text-center">
-                <img src="{% static 'img/down-arrow.png' %}" class="" alt="up_arrow">
+                <a href="#">
+                    <img src="{% static 'img/down-arrow.png' %}" class="" alt="down_arrow">
+                </a>
             </div>
         </div>
 
         <div class="media-body">
-            <a href="#"><h4 class="my-2">{{ question.title }}</h4></a>
+            <a href="{% url 'question' qid=question.question %}"><h4 class="my-2">{{ question.title }}</h4></a>
             <a class="mt-4"><h6>{{ question.text }}</h6></a>
 
             <div class="mt-5">
@@ -30,8 +34,12 @@
                     <li class="list-inline-item">
                         <a><h5>Tags:</h5></a>
                     </li>
-                    <li class="list-inline-item"><a href="{% url 'tag' tag='black-jack' %}"><h5>black-jack</h5></a></li>
-                    <li class="list-inline-item"><a href="{% url 'tag' tag='bender' %}"><h5>bender</h5></a></li>
+
+                    {% for tag_from_question in question.tags.all %}
+                         <li class="list-inline-item">
+                             <a href="{% url 'tag' tag=tag_from_question %}"><h5>{{ tag_from_question }}</h5></a>
+                         </li>
+                    {% endfor %}
                 </ul>
             </div>
         </div>
