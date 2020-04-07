@@ -53,16 +53,16 @@ class QuestionManager(models.Manager):
         return self.order_by('-create_date')
 
     def hot_questions(self):
-       return self.order_by('rating')
+        return self.order_by('rating')
 
     def tag_questions(self, search_tag):
         return self.filter(tags__title__in=[search_tag]).distinct()
 
     def one_question(self, qid):
-        question_ = Question.objects.get(question=qid)
-        answers = Answer.objects.filter(question=question_.question)
+        question = Question.objects.get(question=qid)
+        answers = Answer.objects.filter(question=question.question)
         ans_count = answers.count()
-        return question_, answers, ans_count
+        return question, answers, ans_count
 
 
 class Question(models.Model):
