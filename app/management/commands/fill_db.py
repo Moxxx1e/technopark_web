@@ -30,7 +30,7 @@ class Command(BaseCommand):
         number_of_users = User.objects.count()
         number_of_tags = Tag.objects.count()
         for i in range(number_of_questions):
-            q = Question(title=fake.sentence()[:15],
+            q = Question(title=fake.sentence()[:45],
                          text=fake.text(),
                          author=User.objects.get(pk=randint(1, number_of_users)),
                          is_active=True,
