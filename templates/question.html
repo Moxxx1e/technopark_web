@@ -3,45 +3,7 @@
 {% load static %}
 
 {% block content %}
-
-<div class="border border-top-0 border-right-0 border-left-0 border-dark rounded mt-4">
-    <div class="media">
-        <div class="mr-3">
-            <div class="text-center">
-                <img src="{% static '/img/64x64.png' %}" class="px-3 mt-2 mb-3" alt="avatar in post">
-            </div>
-            <div class="text-center">
-                <img src="{% static 'img/up-arrow.png' %}" class="" alt="up_arrow">
-            </div>
-    
-            <div class="text-center">
-                <a>0</a>
-            </div>
-            
-            <div class="text-center">
-                <img src="{% static 'img/down-arrow.png' %}" class="" alt="down_arrow">
-            </div>
-        </div>
-    
-        <div class="media-body">
-            <a href="{% url 'question' qid=question.question %}"><h4 class="my-2">How to build a moon park?</h4></a>
-            <a class="mt-4"><h6>Guys, I have trouble with a moon park.  <br>
-            Can't find th black-jack.</h6></a>
-    
-            <div class="mt-5">
-                <ul class="list-inline">
-                    <li class="list-inline-item mr-5"><a href="#"><h5>Answer(3)</h5></a></li>
-    
-                    <li class="list-inline-item">
-                        <a><h5>Tags:</h5></a>
-                    </li>
-                    <li class="list-inline-item"><a href="{% url 'tag' tag='black-jack' %}"><h5>black-jack</h5></a></li>
-                    <li class="list-inline-item"><a href="{% url 'tag' tag='bender' %}"><h5>bender</h5></a></li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</div>
+{% include 'inc/one_question.html' %}
 
 {% for answer in answers %}
     {% include 'inc/answer.html' %}
