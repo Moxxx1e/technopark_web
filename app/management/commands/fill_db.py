@@ -9,7 +9,7 @@ questions_list = ['How to use Django Templates?',
                   'What should I do with ValueError in this code?',
                   'How to make pizza?']
 number_of_tags = 8
-
+max_number_of_answers = 5
 
 class Command(BaseCommand):
     help = 'Create questions'
@@ -41,6 +41,15 @@ class Command(BaseCommand):
             for j in range(question_number_of_tags):
                 q.tags.add(Tag.objects.get(pk=randint(1, number_of_tags)))
             q.save()
+
+            for i in range(randint(1, max_number_of_answers)):
+                a = Answer(author=User.objects.get(pk=1),
+                           question=q,
+                           is_correct=False,
+                           create_date=timezone.now(),
+                           text=fake.text(),
+                           )
+                a.save()
 
             l = LikeDislike(content_object=q, vote=1, user=u)
             l.save()
