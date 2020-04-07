@@ -16,14 +16,6 @@
     </div>
 
     <div class="col-3 form-inline">
-        <img src="{% static '/img/64x64.png' %}" class="rounded float-right mr-3" alt="avatar in navbar">
-
-        <p class="lead">
-          <ul class="list-inline">
-            <li>DR. Pepper</li>
-            <li class="list-inline-item"><a  href="{% url 'settings' %}"><strong>settings</strong></a></li>
-            <li class="list-inline-item"><a href="#"><strong>log out</strong></a></li>
-          </ul>
-        </p>
+        {% include 'inc/auth_userblock.html' %}
     </div>
 </nav>
