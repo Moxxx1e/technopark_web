@@ -11,6 +11,7 @@ questions_list = ['How to use Django Templates?',
 number_of_tags = 8
 max_number_of_answers = 5
 
+
 class Command(BaseCommand):
     help = 'Create questions'
 
@@ -31,18 +32,27 @@ class Command(BaseCommand):
             p = Profile(user=u, avatar="../../../static/img/64x64.png")
             p.save()
 
-            q = Question(title=questions_list[randint(0, len(questions_list) - 1)],
+            len_title = randint(3, 8)
+            q_title = ""
+            for j in range(len_title):
+                q_title += fake.word()
+                if j + 1 != len_title:
+                    q_title += " "
+            q_title += "?"
+            q_title.capitalize()
+
+            q = Question(title=q_title,
                          text=fake.text(),
                          author=u,
                          is_active=True,
                          create_date=timezone.now())
             q.save()
-            question_number_of_tags = randint(0, number_of_tags/2)
+            question_number_of_tags = randint(0, number_of_tags / 2)
             for j in range(question_number_of_tags):
                 q.tags.add(Tag.objects.get(pk=randint(1, number_of_tags)))
             q.save()
 
-            for i in range(randint(1, max_number_of_answers)):
+            for j in range(randint(1, max_number_of_answers)):
                 a = Answer(author=User.objects.get(pk=1),
                            question=q,
                            is_correct=False,
@@ -51,5 +61,5 @@ class Command(BaseCommand):
                            )
                 a.save()
 
-            l = LikeDislike(content_object=q, vote=1, user=u)
-            l.save()
+            likes = LikeDislike(content_object=q, vote=1, user=u)
+            likes.save()
