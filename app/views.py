@@ -5,9 +5,9 @@ from .models import *
 
 gl_per_page = 10
 
-
 def paginate(objects_list, request, per_page=gl_per_page):
     paginator = Paginator(objects_list, per_page)
+
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     return page_obj
@@ -29,11 +29,11 @@ def question(request, qid):
     })
 
 
-def tag(request, tag_):
-    questions = Question.objects.tag_questions(tag_)
+def tag(request, tag):
+    questions = Question.objects.tag_questions(tag)
     return render(request, 'tag_questions.html', {
-        'tag': tag_,
-        'questions': paginate(questions, request),
+        'tag': tag,
+        'questions': paginate(questions, request)
     })
 
 
