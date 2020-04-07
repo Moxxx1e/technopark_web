@@ -8,7 +8,6 @@ gl_per_page = 10
 
 def paginate(objects_list, request, per_page=gl_per_page):
     paginator = Paginator(objects_list, per_page)
-    
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     return page_obj
@@ -17,9 +16,7 @@ def paginate(objects_list, request, per_page=gl_per_page):
 def index(request):
     new_questions = Question.objects.new_questions()
     return render(request, 'index.html', {
-        'number_of_questions': range(gl_per_page),
-        'questions': new_questions,
-        'page_obj': paginate(new_questions, request)
+        'questions': paginate(new_questions, request),
     })
 
 
@@ -36,16 +33,14 @@ def tag(request, tag_):
     questions = Question.objects.tag_questions(tag_)
     return render(request, 'tag_questions.html', {
         'tag': tag_,
-        'questions': questions,
-        'page_obj': paginate(questions, request)
+        'questions': paginate(questions, request),
     })
 
 
 def hot(request):
     questions = Question.objects.hot_questions()
     return render(request, 'hot.html', {
-        'questions': questions,
-        'page_obj': paginate(questions, request)
+        'questions': paginate(questions, request),
     })
 
 
