@@ -5,6 +5,7 @@ from .models import *
 
 gl_per_page = 10
 
+
 def paginate(objects_list, request, per_page=gl_per_page):
     paginator = Paginator(objects_list, per_page)
 

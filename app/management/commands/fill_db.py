@@ -4,62 +4,82 @@ from app.models import *
 from random import randint
 from faker import *
 
-questions_list = ['How to use Django Templates?',
-                  'Where can i find Django tutorials?',
-                  'What should I do with ValueError in this code?',
-                  'How to make pizza?']
-number_of_tags = 8
-max_number_of_answers = 5
-
 
 class Command(BaseCommand):
-    help = 'Create questions'
+    help = 'Fill database'
 
     def add_arguments(self, parser):
-        parser.add_argument('total', type=int, help='Indicates the number of questions')
+        parser.add_argument('users', type=int, help='Indicates the number of users')
+        parser.add_argument('tags', type=int, help='Indicates the number of tags')
+        parser.add_argument('questions', type=int, help='Indicates the number of questions')
+        parser.add_argument('max_answers', type=int, help='Indicates the number of answers')
 
-    def handle(self, *args, **options):
-        fake = Faker()
-        total = options['total']
-
+    def create_tags(self, fake, number_of_tags):
         for i in range(number_of_tags):
             t = Tag(title=fake.word())
             t.save()
 
-        for i in range(total):
+    def create_users(self, fake, number_of_users):
+        for i in range(number_of_users):
             u = User(username=fake.name(), password=fake.password(), email=fake.email())
             u.save()
             p = Profile(user=u, avatar="../../../static/img/64x64.png")
             p.save()
 
-            len_title = randint(3, 8)
-            q_title = ""
-            for j in range(len_title):
-                q_title += fake.word()
-                if j + 1 != len_title:
-                    q_title += " "
-            q_title += "?"
-            q_title.capitalize()
-
-            q = Question(title=q_title,
+    def create_questions(self, fake, number_of_questions):
+        number_of_users = User.objects.count()
+        number_of_tags = Tag.objects.count()
+        for i in range(number_of_questions):
+            q = Question(title=fake.sentence()[:15],
                          text=fake.text(),
-                         author=u,
+                         author=User.objects.get(pk=randint(1, number_of_users)),
                          is_active=True,
                          create_date=timezone.now())
             q.save()
-            question_number_of_tags = randint(0, number_of_tags / 2)
+
+            question_number_of_tags = randint(0, min(10, number_of_tags))
             for j in range(question_number_of_tags):
                 q.tags.add(Tag.objects.get(pk=randint(1, number_of_tags)))
             q.save()
 
-            for j in range(randint(1, max_number_of_answers)):
-                a = Answer(author=User.objects.get(pk=1),
-                           question=q,
+    def create_answers(self, fake, max_number_of_answers):
+        number_of_questions = Question.objects.count()
+        number_of_users = User.objects.count()
+
+        for i in range(number_of_questions):
+            number_of_answers = randint(0, max_number_of_answers)
+            for j in range(number_of_answers):
+                a = Answer(author=User.objects.get(pk=randint(1, number_of_users)),
+                           question=Question.objects.get(pk=randint(1, number_of_questions)),
                            is_correct=False,
                            create_date=timezone.now(),
                            text=fake.text(),
                            )
                 a.save()
 
-            likes = LikeDislike(content_object=q, vote=1, user=u)
-            likes.save()
+    def create_likes(self):
+        number_of_questions = Question.objects.count()
+        questions = Question.objects.get_queryset()
+        users = User.objects.get_queryset()
+        number_of_users = users.count()
+
+        for i in range(number_of_users):
+            for j in range(number_of_questions):
+                if randint(0, 1) == 1:
+                    like = LikeDislike(content_object=Question.objects.get(pk=randint(1, number_of_questions)),
+                                       vote=1,
+                                       user=User.objects.get(pk=randint(1, number_of_users)))
+                    like.save()
+
+    def handle(self, *args, **options):
+        fake = Faker()
+        users = options['users']
+        tags = options['tags']
+        questions = options['questions']
+        max_answers = options['max_answers']
+
+        self.create_tags(fake, tags)
+        self.create_users(fake, users)
+        self.create_questions(fake, questions)
+        self.create_answers(fake, max_answers)
+        self.create_likes()
