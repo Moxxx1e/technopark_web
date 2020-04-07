@@ -24,15 +24,6 @@ def paginate(objects_list, request, per_page=gl_per_page):
 
 #questions = Question.objects.all()
 new_questions = Question.objects.new_questions()
-'''
-questions = []
-for i in range(1, 31):
-    questions.append({
-        'title': 'title' + str(i),
-        'id': i,
-        'text': 'text' + str(i)
-    })
-'''
 
 def index(request):
     return render(request, 'index.html', {
@@ -54,10 +45,11 @@ def ask(request):
     return render(request, 'ask.html', {})
 
 def question(request, qid):
-    question = new_questions[qid - 1]
+    question_, answers, ans_count = Question.objects.one_question(qid)
     return render(request, 'question.html', {
-        'question': question,
-        'answers': range(3),
+        'question': question_,
+        'answers': answers,
+        'ans_count': ans_count
     })
 
 def tag(request, tag):

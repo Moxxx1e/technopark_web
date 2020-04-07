@@ -11,21 +11,18 @@
             </div>
     
             <div class="text-center">
-                <a>5</a>
+                <a>{{ answer.rating.sum_rating }}</a>
             </div>
             
             <div class="text-center">
-                <img src="{% static 'img/down-arrow.png' %}" class="" alt="up_arrow">
+                <img src="{% static 'img/down-arrow.png' %}" class="" alt="down_arrow">
             </div>
         </div>
     
         <div class="media-body">
             <a class="mt-4">
                 <h6 class="py-2">
-                    First of all I would like to thank you for the <br>
-                    invitation to participate in such a ... Russia is the <br>
-                    huge territory which in many respects needs to<br>
-                    be render habitable
+                   {{ answer.text }}
                 </h6>
             </a>
     

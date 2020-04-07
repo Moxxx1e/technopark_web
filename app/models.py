@@ -58,6 +58,12 @@ class QuestionManager(models.Manager):
     def tag_questions(self, search_tag):
         return self.filter(tags__title__in=[search_tag]).distinct()
 
+    def one_question(self, qid):
+        question_ = Question.objects.get(question=qid)
+        answers = Answer.objects.filter(question=question_.question)
+        ans_count = answers.count()
+        return question_, answers, ans_count
+
 
 class Question(models.Model):
     question = models.AutoField(primary_key=True)
