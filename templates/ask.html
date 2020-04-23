@@ -1,28 +1,16 @@
 {% extends 'base.html' %}
+{% load bootstrap4 %}
 
 {% block content %}
 
 <h2>New Question</h2>
-<form>
-    <div class="form-group">
-        <label for="Title"><h4>Title</h4></label>
-        <input type="text" class="form-control" id="Title" placeholder="How to build a moon-park? " aria-label="Title" aria-describedby="basic-addon1">
-    </div>
-    <div class="form-group">
-        <label for="Text"><h4>Text</h4></label>
-        <textarea class="form-control" placeholder="Really how? Have no idea about it." id="Text" 
-        aria-label="Text" style="height: 146px;"></textarea>
-    </div>
-    <div class="form-group">
-        <label for="Tags"><h4>Tags</h4></label>
-        <input type="text" class="form-control" id="Tags" placeholder="moon, park, puzzle"
-            aria-label="Tags" aria-describedby="basic-addon1">
-    </div>
-    
-    <button class="btn btn-primary" type="submit">ASK!</button>
-    <br>
-    <br>
-    <br>
+
+<form method="post" class="form">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    {% buttons %}
+        <button type="submit" class="btn btn-primary">Ask!</button>
+    {% endbuttons %}
 </form>
 
 {% endblock content %}

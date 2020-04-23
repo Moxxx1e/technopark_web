@@ -1,5 +1,6 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, reverse
 from django.contrib import auth
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpRequest
 from django.core.paginator import Paginator
 from .models import *
@@ -48,17 +49,17 @@ def hot(request):
 
 
 def login(request):
-    if request == 'GET':
+    if request.method == 'GET':
         form = forms.LoginForm()
-    else:
-        form = forms.LoginForm(data=request.POST)
-        if form.is_valid():
-            user = auth.authenticate(request, **form.cleaned_data)
-            if user is not None:
-                print(form.errors)
-                print(form.cleaned_data)
-                auth.login(request, user)
-                return redirect("/")  # TODO: correct redirect
+        context = {'form': form}
+        return render(request, 'login.html', context)
+
+    form = forms.LoginForm(data=request.POST)
+    if form.is_valid():
+        user = auth.authenticate(request, **form.cleaned_data)
+        if user is not None:
+            auth.login(request, user)
+            return redirect("/")  # TODO: correct redirect
 
     context = {'form': form}
     return render(request, 'login.html', context)
@@ -72,5 +73,17 @@ def settings(request):
     return render(request, 'settings.html', {})
 
 
+@login_required
 def ask(request):
-    return render(request, 'ask.html', {})
+    if request.method == "GET":
+        form = forms.QuestionForm(request.user.profile)
+        context = {'form': form}
+        return render(request, 'ask.html', context)
+
+    form = forms.QuestionForm(request.user.profile, request.POST)
+    if form.is_valid():
+        question = form.save()
+        return reverse('question', kwargs={'qid': question.id})
+
+    context = {'form': form}
+    return render(request, 'ask.html', context)
