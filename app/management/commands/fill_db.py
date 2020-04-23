@@ -27,19 +27,21 @@ class Command(BaseCommand):
             p.save()
 
     def create_questions(self, fake, number_of_questions):
-        number_of_users = User.objects.count()
+        userIds = User.objects.values_list('id', flat=True)
         number_of_tags = Tag.objects.count()
+        tagIds = Tag.objects.values_list('id', flat=True)
+
         for i in range(number_of_questions):
             q = Question(title=fake.sentence()[:45],
                          text=fake.text(),
-                         author=User.objects.get(pk=randint(1, number_of_users)),
+                         author=User.objects.get(pk=userIds[randint(0, userIds.count() - 1)]),
                          is_active=True,
                          create_date=timezone.now())
             q.save()
 
-            question_number_of_tags = randint(0, min(10, number_of_tags))
+            question_number_of_tags = randint(0, min(10, tagIds.count() - 1))
             for j in range(question_number_of_tags):
-                q.tags.add(Tag.objects.get(pk=randint(1, number_of_tags)))
+                q.tags.add(Tag.objects.get(pk=tagIds[randint(0, tagIds.count() - 1)]))
             q.save()
 
     def create_answers(self, fake, max_number_of_answers):
