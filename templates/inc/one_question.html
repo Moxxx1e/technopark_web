@@ -37,10 +37,27 @@
 
                     {% for tag_from_question in question.tags.all %}
                          <li class="list-inline-item">
-                             <a href="{% url 'tag' tag=tag_from_question %}"><h5>{{ tag_from_question }}</h5></a>
+                             <a href="{% url 'tag' tag=tag_from_question %}">
+                                 <h5>{{ tag_from_question }}</h5>
+                             </a>
                          </li>
                     {% endfor %}
                 </ul>
+
+                 <li class="list-inline-item">
+                        <a><h6>Author:</h6></a>
+                 </li>
+                <li class="list-inline-item mr-5">
+                    <a href="#"><h6>{{ question.author }}</h6></a>
+                </li>
+
+                <li class="list-inline-item">
+                        <a><h6>Asked:</h6></a>
+                 </li>
+                <li class="list-inline-item">
+                    <a><h6>{{ question.create_date }}</h6></a>
+                </li>
+
             </div>
         </div>
     </div>
