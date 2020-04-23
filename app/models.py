@@ -32,6 +32,7 @@ class LikeDislikeManager(models.Manager):
     def sum_rating(self):
         return self.get_queryset().aggregate(Sum('vote')).get('vote__sum') or 0
 
+# TODO: rewrite this model
 class LikeDislike(models.Model):
     LIKE = 1
     DISLIKE = -1
@@ -58,8 +59,8 @@ class QuestionManager(models.Manager):
         return self.filter(tags__title__in=[search_tag]).distinct()
 
     def one_question(self, qid):
-        question = Question.objects.get(question=qid)
-        answers = Answer.objects.filter(question=question.question)
+        question = Question.objects.get(id=qid)
+        answers = Answer.objects.filter(id=question.id)
         ans_count = answers.count()
         return question, answers, ans_count
 
