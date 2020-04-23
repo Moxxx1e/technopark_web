@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpRequest
 from django.core.paginator import Paginator
 from .models import *
+from app import forms
 
 gl_per_page = 10
 
@@ -46,7 +47,9 @@ def hot(request):
 
 
 def login(request):
-    return render(request, 'login.html', {})
+    form = forms.LoginForm()
+    context = {'form': form}
+    return render(request, 'login.html', context)
 
 
 def signup(request):
