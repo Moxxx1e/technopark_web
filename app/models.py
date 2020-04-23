@@ -8,7 +8,6 @@ from datetime import datetime
 
 
 class Profile(models.Model):
-    profile = models.AutoField(primary_key=True)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     avatar = models.ImageField(upload_to='uploads/%Y/%m/%d/')
 
@@ -16,8 +15,11 @@ class Profile(models.Model):
         return self.user
 
 
+class TagManager(models.Manager):
+    pass
+
+
 class Tag(models.Model):
-    tag = models.AutoField(primary_key=True)
     title = models.CharField(max_length=50, verbose_name=u"Имя тэга")
 
     def __str__(self):
@@ -30,10 +32,7 @@ class LikeDislikeManager(models.Manager):
     def sum_rating(self):
         return self.get_queryset().aggregate(Sum('vote')).get('vote__sum') or 0
 
-
 class LikeDislike(models.Model):
-    like_dislike = models.AutoField(primary_key=True)
-
     LIKE = 1
     DISLIKE = -1
 
@@ -66,7 +65,6 @@ class QuestionManager(models.Manager):
 
 
 class Question(models.Model):
-    question = models.AutoField(primary_key=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
 
     title = models.CharField(max_length=120, verbose_name=u"Заголовок вопроса")
@@ -86,7 +84,6 @@ class Question(models.Model):
 
 
 class Answer(models.Model):
-    answer = models.AutoField(primary_key=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     is_correct = models.BooleanField(default=False, verbose_name=u"Правильность ответа")
