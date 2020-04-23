@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.contrib import auth
 from django.http import HttpResponse, HttpRequest
 from django.core.paginator import Paginator
 from .models import *
@@ -47,7 +48,18 @@ def hot(request):
 
 
 def login(request):
-    form = forms.LoginForm()
+    if request == 'GET':
+        form = forms.LoginForm()
+    else:
+        form = forms.LoginForm(data=request.POST)
+        if form.is_valid():
+            user = auth.authenticate(request, **form.cleaned_data)
+            if user is not None:
+                print(form.errors)
+                print(form.cleaned_data)
+                auth.login(request, user)
+                return redirect("/")  # TODO: correct redirect
+
     context = {'form': form}
     return render(request, 'login.html', context)
 
