@@ -9,14 +9,15 @@ from datetime import datetime
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    avatar = models.ImageField(upload_to='uploads/%Y/%m/%d/')
+    avatar = models.ImageField(upload_to='../static/img/')
 
     def __str__(self):
-        return self.user
+        return self.user.username
 
 
 class TagManager(models.Manager):
-    pass
+    def best_tags(self):
+        return self.order_by('rating')
 
 
 class Tag(models.Model):
@@ -31,6 +32,7 @@ class LikeDislikeManager(models.Manager):
 
     def sum_rating(self):
         return self.get_queryset().aggregate(Sum('vote')).get('vote__sum') or 0
+
 
 # TODO: rewrite this model
 class LikeDislike(models.Model):

@@ -70,7 +70,19 @@ def login(request):
 
 
 def signup(request):
-    return render(request, 'signup.html', {})
+    if request.method == 'GET':
+        form = forms.SignupForm()
+        context = {'form': form}
+        return render(request, 'signup.html', context)
+
+    form = forms.SignupForm(data=request.POST, files=request.FILES)
+    if form.is_valid():
+        user, profile = form.save()
+        auth.login(request, user)
+        return redirect("/")
+
+    context = {'form': form}
+    return render(request, 'signup.html', context)
 
 
 def settings(request):
@@ -84,7 +96,8 @@ def ask(request):
         context = {'form': form}
         return render(request, 'ask.html', context)
 
-    form = forms.QuestionForm(request.user.profile, request.POST)
+    #TODO: change user to user.profile
+    form = forms.QuestionForm(request.user, request.POST)
     if form.is_valid():
         question = form.save()
         return reverse('question', kwargs={'qid': question.id})
