@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, reverse
 from django.contrib import auth
+from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpRequest
 from django.core.paginator import Paginator
@@ -40,6 +41,8 @@ def question(request, qid):
     form = forms.AnswerForm(request.user, question_, request.POST)
     if form.is_valid():
         answer = form.save()
+        question_.answers += 1
+        question_.save()
         return redirect(reverse('question', kwargs={'qid': qid}))
 
     context = {'question': question_, 'answers': answers,
@@ -66,6 +69,11 @@ def hot(request):
     })
 
 
+#def logout_view(request):
+#   auth.logout(request)
+#  return render(request, 'index.html', {})
+
+
 def login(request):
     if request.method == 'GET':
         form = forms.LoginForm()
@@ -74,7 +82,7 @@ def login(request):
 
     form = forms.LoginForm(data=request.POST)
     if form.is_valid():
-        user = auth.authenticate(request, **form.cleaned_data)
+        user = authenticate()
         if user is not None:
             auth.login(request, user)
             return redirect("/")  # TODO: correct redirect
