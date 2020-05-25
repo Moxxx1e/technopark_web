@@ -55,7 +55,7 @@ class QuestionManager(models.Manager):
         return self.order_by('-create_date')
 
     def hot_questions(self):
-        return self.order_by('rating')
+        return self.order_by('-rating')
 
     def tag_questions(self, search_tag):
         return self.filter(tags__title__in=[search_tag]).distinct()
@@ -69,16 +69,15 @@ class QuestionManager(models.Manager):
 
 class Question(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-
     title = models.CharField(max_length=120, verbose_name=u"Заголовок вопроса")
     text = models.TextField(verbose_name=u"Описание вопроса")
-
     create_date = models.DateTimeField(default=datetime.now, auto_now=False, auto_now_add=False,
                                        verbose_name=u"Время создания вопроса")
     tags = models.ManyToManyField(Tag, blank=True)
 
+    rating = models.IntegerField(default=0, db_index=True)
     is_active = models.BooleanField(default=True, verbose_name=u"Доступность вопроса")
-    rating = GenericRelation(to=LikeDislike, related_query_name="question")
+    votes = GenericRelation(to=LikeDislike, related_query_name="question")
 
     objects = QuestionManager()
 
@@ -93,3 +92,6 @@ class Answer(models.Model):
     create_date = models.DateTimeField(default=datetime.now, verbose_name=u"Время создания ответа")
     text = models.TextField(verbose_name=u"Текст ответа")
     rating = GenericRelation(to=LikeDislike, related_query_name="answer")
+
+    def __str__(self):
+        return self.text

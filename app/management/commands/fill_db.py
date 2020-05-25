@@ -69,9 +69,13 @@ class Command(BaseCommand):
         for i in range(number_of_users):
             for j in range(number_of_questions):
                 if randint(0, 1) == 1:
-                    like = LikeDislike(content_object=Question.objects.get(pk=randint(1, number_of_questions)),
+                    qid = randint(1, number_of_questions)
+                    like = LikeDislike(content_object=Question.objects.get(pk=qid),
                                        vote=1,
                                        user=User.objects.get(pk=randint(1, number_of_users)))
+                    q = Question.objects.get(pk=qid)
+                    q.rating += 1
+                    q.save()
                     like.save()
 
     def handle(self, *args, **options):
