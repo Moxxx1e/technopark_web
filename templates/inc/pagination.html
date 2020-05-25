@@ -1,16 +1,16 @@
 <nav aria-label="pages">
     <div class="pagination">
             <!--TODO: make nav bar more beautiful-->
-            {% if questions.has_previous %}
+            {% if paginate_objects.has_previous %}
                 <a class="page-link" href="?page=1"> 1</a>
-                <a class="page-link" href="?page={{ questions.previous_page_number }}"> &laquo; </a>
+                <a class="page-link" href="?page={{ paginate_objects.previous_page_number }}"> &laquo; </a>
             {% endif %}
 
-            <a class="page-link" style="background-color: lightgrey" href="#">{{ questions.number }}</a>
+            <a class="page-link" style="background-color: lightgrey" href="#">{{ paginate_objects.number }}</a>
     
             {% if questions.has_next %}
-                <a class="page-link" href="?page={{ questions.next_page_number }}">&raquo;</a>
-                <a class="page-link" href="?page={{ questions.paginator.num_pages }}">{{questions.paginator.num_pages}}</a>
+                <a class="page-link" href="?page={{ paginate_objects.next_page_number }}">&raquo;</a>
+                <a class="page-link" href="?page={{ paginate_objects.paginator.num_pages }}">{{paginate_objects.paginator.num_pages}}</a>
             {% endif %}
     </div>
   </nav>
