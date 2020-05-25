@@ -54,7 +54,7 @@ class Command(BaseCommand):
             for j in range(number_of_answers):
                 qid = questionIds[randint(0, number_of_questions)]
                 a = Answer(author=User.objects.get(pk=userIds[randint(0, number_of_users)]),
-                           question=Question.objects.get(pk=questionIds[randint(0, number_of_questions)]),
+                           question=Question.objects.get(pk=qid),
                            is_correct=False,
                            create_date=timezone.now(),
                            text=fake.text(),

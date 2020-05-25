@@ -93,7 +93,9 @@ class Answer(models.Model):
     is_correct = models.BooleanField(default=False, verbose_name=u"Правильность ответа")
     create_date = models.DateTimeField(default=datetime.now, verbose_name=u"Время создания ответа")
     text = models.TextField(verbose_name=u"Текст ответа")
-    rating = GenericRelation(to=LikeDislike, related_query_name="answer")
+    vote = GenericRelation(to=LikeDislike, related_query_name="answer")
+
+    rating = models.IntegerField(default=0, db_index=True)
 
     def __str__(self):
         return self.text
