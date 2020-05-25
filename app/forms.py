@@ -1,5 +1,5 @@
 from django import forms
-from app.models import Question, User, Profile
+from app.models import Question, User, Profile, Answer
 
 
 class LoginForm(forms.Form):
@@ -43,6 +43,25 @@ class SignupForm(forms.Form):
             newUser.save()
             newProfile.save()
         return newUser, newProfile
+
+
+class AnswerForm(forms.ModelForm):
+    class Meta:
+        model = Answer
+        fields = ['text']
+
+    def __init__(self, user, question, *args, **kwargs):
+        self.user = user
+        self.question = question
+        super().__init__(*args, **kwargs)
+
+    def save(self, commit=True):
+        answer = Answer(text=self.cleaned_data.get('text'))
+        answer.author = self.user
+        answer.question = self.question
+        if commit:
+            answer.save()
+        return answer
 
 
 class QuestionForm(forms.ModelForm):

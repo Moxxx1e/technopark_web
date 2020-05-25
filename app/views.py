@@ -27,12 +27,26 @@ def index(request):
 
 def question(request, qid):
     question_, answers, ans_count = Question.objects.one_question(qid)
-    return render(request, 'question.html', {
-        'question': question_,
-        'answers': answers,
-        'paginate_objects': paginate(answers, request),
-        'ans_count': ans_count
-    })
+
+    if request.method == "GET":
+        form = forms.AnswerForm(request.user, question_)
+        context = {'question': question_, 'answers': answers,
+                   'paginate_objects': paginate(answers, request),
+                   'ans_count': ans_count,
+                   'form': form}
+        return render(request, 'question.html', context)
+
+    # TODO: change user to user.profile
+    form = forms.AnswerForm(request.user, question_, request.POST)
+    if form.is_valid():
+        answer = form.save()
+        return redirect(reverse('question', kwargs={'qid': qid}))
+
+    context = {'question': question_, 'answers': answers,
+               'paginate_objects': paginate(answers, request),
+               'ans_count': ans_count,
+               'form': form}
+    return render(request, 'question.html', context)
 
 
 def tag(request, tag):
@@ -79,7 +93,7 @@ def signup(request):
     if form.is_valid():
         user, profile = form.save()
         auth.login(request, user)
-        return redirect("/")
+        return redirect("/ask")
 
     context = {'form': form}
     return render(request, 'signup.html', context)
@@ -92,7 +106,7 @@ def settings(request):
 @login_required
 def ask(request):
     if request.method == "GET":
-        form = forms.QuestionForm(request.user.profile)
+        form = forms.QuestionForm(request.user)
         context = {'form': form}
         return render(request, 'ask.html', context)
 
@@ -100,7 +114,7 @@ def ask(request):
     form = forms.QuestionForm(request.user, request.POST)
     if form.is_valid():
         question = form.save()
-        return reverse('question', kwargs={'qid': question.id})
+        return redirect(reverse('question', kwargs={'qid': question.id}))
 
     context = {'form': form}
     return render(request, 'ask.html', context)
