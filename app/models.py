@@ -62,7 +62,7 @@ class QuestionManager(models.Manager):
 
     def one_question(self, qid):
         question = Question.objects.get(id=qid)
-        answers = Answer.objects.filter(id=question.id)
+        answers = Answer.objects.filter(question=qid)
         ans_count = answers.count()
         return question, answers, ans_count
 
