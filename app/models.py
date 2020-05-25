@@ -79,6 +79,8 @@ class Question(models.Model):
     is_active = models.BooleanField(default=True, verbose_name=u"Доступность вопроса")
     votes = GenericRelation(to=LikeDislike, related_query_name="question")
 
+    answers = models.IntegerField(default=0, db_index=True)
+
     objects = QuestionManager()
 
     def __str__(self):

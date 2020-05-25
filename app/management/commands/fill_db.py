@@ -52,12 +52,18 @@ class Command(BaseCommand):
         for i in range(number_of_questions):
             number_of_answers = randint(0, max_number_of_answers)
             for j in range(number_of_answers):
+                qid = questionIds[randint(0, number_of_questions)]
                 a = Answer(author=User.objects.get(pk=userIds[randint(0, number_of_users)]),
                            question=Question.objects.get(pk=questionIds[randint(0, number_of_questions)]),
                            is_correct=False,
                            create_date=timezone.now(),
                            text=fake.text(),
                            )
+
+                q = Question.objects.get(pk=qid)
+                q.answers += 1
+                q.save()
+
                 a.save()
 
     def create_likes(self):
