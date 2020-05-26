@@ -64,6 +64,30 @@ class AnswerForm(forms.ModelForm):
         return answer
 
 
+class SettingsForm(forms.ModelForm):
+    username = forms.CharField()
+    email = forms.EmailField()
+    #avatar = forms.ImageField()
+
+    class Meta:
+        model = User
+        fields = ['username', 'email']
+
+    def __init__(self, user, *args, **kwargs):
+        self.user = user
+        super().__init__(*args, **kwargs)
+
+    def save(self, commit=True):
+        newUser = User(username=self.cleaned_data.get('username'),
+                       email=self.cleaned_data.get('email'))
+        newProfile = Profile(user=newUser)
+        if commit:
+            newUser.save()
+            newProfile.save()
+        return newUser, newProfile
+
+
+
 class QuestionForm(forms.ModelForm):
     class Meta:
         model = Question
