@@ -8,7 +8,7 @@
 
             <a class="page-link" style="background-color: lightgrey" href="#">{{ paginate_objects.number }}</a>
     
-            {% if questions.has_next %}
+            {% if paginate_objects.has_next %}
                 <a class="page-link" href="?page={{ paginate_objects.next_page_number }}">&raquo;</a>
                 <a class="page-link" href="?page={{ paginate_objects.paginator.num_pages }}">{{paginate_objects.paginator.num_pages}}</a>
             {% endif %}

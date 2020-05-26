@@ -62,8 +62,8 @@ class QuestionManager(models.Manager):
 
     def one_question(self, qid):
         question = Question.objects.get(id=qid)
-        answers = Answer.objects.filter(question=qid)
-        ans_count = answers.count()
+        answers = Answer.objects.filter(question=qid).order_by('-create_date')
+        ans_count = question.answers
         return question, answers, ans_count
 
 

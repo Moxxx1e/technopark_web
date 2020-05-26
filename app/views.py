@@ -7,7 +7,7 @@ from django.core.paginator import Paginator
 from .models import *
 from app import forms
 
-gl_per_page = 10
+gl_per_page = 1
 
 
 def paginate(objects_list, request, per_page=gl_per_page):
@@ -28,10 +28,10 @@ def index(request):
 
 def question(request, qid):
     question_, answers, ans_count = Question.objects.one_question(qid)
-
     if request.method == "GET":
         form = forms.AnswerForm(request.user, question_)
-        context = {'question': question_, 'answers': answers,
+        context = {'question': question_,
+                   'answers': paginate(answers, request),
                    'paginate_objects': paginate(answers, request),
                    'ans_count': ans_count,
                    'form': form}
