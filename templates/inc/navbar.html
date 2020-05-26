@@ -15,7 +15,14 @@
         </form>
     </div>
 
+    {% if request.user.is_authenticated %}
     <div class="col-3 form-inline">
         {% include 'inc/auth_userblock.html' %}
     </div>
+    {% else %}
+    <div class="col-3 form-inline">
+        {% include 'inc/unauth_userblock.html' %}
+    </div>
+    {% endif %}
+
 </nav>
