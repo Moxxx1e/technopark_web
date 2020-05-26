@@ -49,14 +49,6 @@ $("click_like").click(function (event) {
     });
 });
 */
-jQuery.fn.extend({
-    disable: function (state) {
-        return this.each(function () {
-            var $this = $(this);
-            $this.toggleClass('disabled', state);
-        });
-    }
-});
 
 let rate = (qid, flag) => {
     const csrftoken = getCookie('csrftoken');
@@ -70,7 +62,9 @@ let rate = (qid, flag) => {
             csrfmiddlewaretoken: csrftoken,
         },
     }).done((response) => {
-        let element = document.querySelector(`#question-rating-${qid}`);
+        //let element = document.querySelector(`#question-rating-${qid}`);
+        rating_id = 'rating_' + qid;
+        let element = document.getElementById(rating_id);
         console.log(response.rating);
         console.log(response.vote);
         like_button_name = '#like_' + qid;
