@@ -12,13 +12,18 @@
 
 {% include 'inc/pagination.html' %}
 
-<form method="post" class="form">
-    {% csrf_token %}
-    {% bootstrap_form form %}
-    {% buttons %}
-        <button class="btn btn-primary" type="submit">Answer</button>
-    {% endbuttons %}
-</form>
+{% if request.user.is_authenticated %}
+   <form method="post" class="form">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        {% buttons %}
+            <button class="btn btn-primary" type="submit">Answer</button>
+        {% endbuttons %}
+    </form>
+{% else %}
+    <p> Комментарии могут оставлять только зарегистрированные пользователи. </p>
+    <a href="{% url 'signup' %}"><h4>Создать аккаунт</h4></a>
+{% endif %}
 
 <br>
 <br>
