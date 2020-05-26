@@ -28,13 +28,11 @@ def logout_view(request):
 
 @login_required
 def like_ajax(request):
-    print("HEY, ANYBODY!\n")
-    print(request.POST)
+
     q = Question.objects.get(pk=request.POST.get('qid'))
     flag = request.POST.get('flag')
     vote = 0
     if flag == 'true':
-        print('True')
         vote = 1
     else:
         vote = -1
@@ -55,8 +53,6 @@ def like_ajax(request):
         'rating': q.rating,
         'vote': vote,
     }), content_type='application/json')
-
-
 
 
 def index(request):
