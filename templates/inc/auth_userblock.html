@@ -6,6 +6,6 @@
   <ul class="list-inline">
     <li>{{ request.user.username }}</li>
     <li class="list-inline-item"><a  href="{% url 'settings' %}"><strong>settings</strong></a></li>
-    <li class="list-inline-item"><a href="#"><strong>log out</strong></a></li>
+    <li class="list-inline-item"><a href="{% url 'logout' %}"><strong>log out</strong></a></li>
   </ul>
 </p>

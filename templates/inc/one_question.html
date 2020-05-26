@@ -6,20 +6,22 @@
             <div class="text-center">
                 <img src="{% static '/img/64x64.png' %}" class="px-3 mt-2 mb-3" alt="avatar in post">
             </div>
+
             <div class="text-center">
-                <a href="#">
+                <button id="like_{{ question.id }}" onclick="rate({{ question.id }}, true)" class="btn btn-submit">
                     <img src="{% static 'img/up-arrow.png' %}" class="" alt="up_arrow">
-                </a>
+                </button>
             </div>
 
             <div class="text-center">
-                <a>{{ question.rating }}</a>
+                <a id="question-rating-{{ question.id }}">
+                   {{ q.rating }}</a>
             </div>
-            
+
             <div class="text-center">
-                <a href="#">
+                  <button id="dislike_{{ question.id }}" onclick="rate({{ question.id }}, false)" class="btn btn-link">
                     <img src="{% static 'img/down-arrow.png' %}" class="" alt="down_arrow">
-                </a>
+                </button>
             </div>
         </div>
 

@@ -2,12 +2,14 @@ from django.shortcuts import render, redirect, reverse
 from django.contrib import auth
 from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
 from django.http import HttpResponse, HttpRequest
 from django.core.paginator import Paginator
 from .models import *
 from app import forms
+import json
 
-gl_per_page = 1
+gl_per_page = 10
 
 
 def paginate(objects_list, request, per_page=gl_per_page):
@@ -16,6 +18,45 @@ def paginate(objects_list, request, per_page=gl_per_page):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     return page_obj
+
+
+@login_required
+def logout_view(request):
+    auth.logout(request)
+    return redirect("/")
+
+
+@login_required
+def like_ajax(request):
+    print("HEY, ANYBODY!\n")
+    print(request.POST)
+    q = Question.objects.get(pk=request.POST.get('qid'))
+    flag = request.POST.get('flag')
+    vote = 0
+    if flag == 'true':
+        print('True')
+        vote = 1
+    else:
+        vote = -1
+
+    LikeDislike.objects.create(vote=vote,
+                               user=request.user,
+                               content_object=q,
+    )
+
+    if flag == 'true':
+        q.rating += 1
+        q.save()
+    else:
+        q.rating -= 1
+        q.save()
+
+    return HttpResponse(json.dumps({
+        'rating': q.rating,
+        'vote': vote,
+    }), content_type='application/json')
+
+
 
 
 def index(request):
@@ -69,11 +110,6 @@ def hot(request):
     })
 
 
-#def logout_view(request):
-#   auth.logout(request)
-#  return render(request, 'index.html', {})
-
-
 def login(request):
     if request.method == 'GET':
         form = forms.LoginForm()
@@ -82,10 +118,10 @@ def login(request):
 
     form = forms.LoginForm(data=request.POST)
     if form.is_valid():
-        user = authenticate()
+        user = authenticate(request, **form.cleaned_data)
         if user is not None:
             auth.login(request, user)
-            return redirect("/")  # TODO: correct redirect
+            return redirect('/?next=%s' % request.path)
 
     context = {'form': form}
     return render(request, 'login.html', context)
@@ -107,8 +143,21 @@ def signup(request):
     return render(request, 'signup.html', context)
 
 
+@login_required()
 def settings(request):
-    return render(request, 'settings.html', {})
+    if request.method == "GET":
+        form = forms.SettingsForm(request.user)
+        context = {'form': form}
+        return render(request, 'settings.html', context)
+
+    #TODO: change user to user.profile
+    form = forms.SettingsForm(request.user, request.POST)
+    if form.is_valid():
+        user, profile = form.save()
+        return redirect("/settings")
+
+    context = {'form': form}
+    return render(request, 'settings.html', context)
 
 
 @login_required

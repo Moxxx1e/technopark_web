@@ -5,7 +5,7 @@
 <h2>Sign in</h2>
 <br>
 
-<form method="post" class="form">
+<form method="post" action="/login/?next={{ request.GET.next }}" class="form">
     {% csrf_token %}
     {% bootstrap_form form %}
     {% buttons %}

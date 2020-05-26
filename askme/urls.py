@@ -15,4 +15,6 @@ urlpatterns = [
 
     path('question/<int:qid>/', views.question, name='question'),
     path('tag/<str:tag>/', views.tag, name='tag'),
+    path('logout/', views.logout_view, name='logout'),
+    path('vote/', views.like_ajax, name='vote')
 ]
